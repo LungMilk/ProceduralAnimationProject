@@ -25,7 +25,7 @@ public class FootSystem : MonoBehaviour
     private void Update()
     {
         //updating position and normal
-        transform.position = currentPosition;
+        //transform.position = currentPosition;
         transform.up = currentNormal;
 
         //creating a ray that will be offset of the main body and be directed down
