@@ -430,7 +430,7 @@ Transform:
   m_GameObject: {fileID: 199170511}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.21958813, y: 0.6793776, z: -0.8561044}
+  m_LocalPosition: {x: -0.21958813, y: 0.515, z: 0.553}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -462,7 +462,7 @@ Transform:
   m_GameObject: {fileID: 427042086}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5821557, y: 0.4215252, z: 0.5924214, w: 0.36393434}
-  m_LocalPosition: {x: 0.180037, y: 0.06933484, z: -0.07018251}
+  m_LocalPosition: {x: 0.180037, y: 0.06933484, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -477,20 +477,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 427042086}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ded6d05e45738e34bb2d89a25d1a6601, type: 3}
+  m_Script: {fileID: 11500000, guid: 85082548db39b884db49a1068e0b8f9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  body: {fileID: 1056076970}
+  footSpacing: 0.3
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
-  otherFoot: {fileID: 678018293}
   stepDistance: 0.3
   stepHeight: 0.5
-  stepLength: 1
-  footSpacing: 1
-  speed: 2
-  body: {fileID: 1056076970}
-  footOffset: {x: 0, y: 0, z: 0}
+  speed: 4
+  forwardMovementPrediction: 2
 --- !u!1 &591416998
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,7 +670,7 @@ Transform:
   m_GameObject: {fileID: 678018291}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5702813, y: 0.37940824, z: 0.6038712, w: 0.40763742}
-  m_LocalPosition: {x: -0.18086933, y: 0.06933977, z: -0.07021278}
+  m_LocalPosition: {x: -0.18086933, y: 0.06933977, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -687,20 +685,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 678018291}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ded6d05e45738e34bb2d89a25d1a6601, type: 3}
+  m_Script: {fileID: 11500000, guid: 85082548db39b884db49a1068e0b8f9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  body: {fileID: 1056076970}
+  footSpacing: -0.3
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
-  otherFoot: {fileID: 427042088}
   stepDistance: 0.3
   stepHeight: 0.5
-  stepLength: 1
-  footSpacing: 1
-  speed: 2
-  body: {fileID: 1056076970}
-  footOffset: {x: 0, y: 0, z: 0}
+  speed: 4
+  forwardMovementPrediction: 2
 --- !u!1 &746551428
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,7 +1397,7 @@ Transform:
   m_GameObject: {fileID: 1990303612}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.21876022, y: 0.6793371, z: -0.8560976}
+  m_LocalPosition: {x: 0.21876022, y: 0.51495945, z: 0.55300677}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
