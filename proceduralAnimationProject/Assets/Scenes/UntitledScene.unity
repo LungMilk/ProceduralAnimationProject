@@ -445,6 +445,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 427042087}
+  - component: {fileID: 427042088}
   m_Layer: 0
   m_Name: RightLeg_target
   m_TagString: Untagged
@@ -467,6 +468,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 591416999}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &427042088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427042086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded6d05e45738e34bb2d89a25d1a6601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  otherFoot: {fileID: 678018293}
+  stepDistance: 0.3
+  stepHeight: 0.5
+  stepLength: 1
+  footSpacing: 1
+  speed: 2
+  body: {fileID: 1056076970}
+  footOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &591416998
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,6 +655,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 678018292}
+  - component: {fileID: 678018293}
   m_Layer: 0
   m_Name: LeftLeg_target
   m_TagString: Untagged
@@ -653,6 +678,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 994438042}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &678018293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678018291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded6d05e45738e34bb2d89a25d1a6601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  otherFoot: {fileID: 427042088}
+  stepDistance: 0.3
+  stepHeight: 0.5
+  stepLength: 1
+  footSpacing: 1
+  speed: 2
+  body: {fileID: 1056076970}
+  footOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &746551428
 GameObject:
   m_ObjectHideFlags: 0

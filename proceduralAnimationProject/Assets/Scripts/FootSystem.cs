@@ -25,14 +25,14 @@ public class FootSystem : MonoBehaviour
     private void Update()
     {
         //updating position and normal
-        //transform.position = currentPosition;
+        transform.position = currentPosition;
         transform.up = currentNormal;
 
         //creating a ray that will be offset of the main body and be directed down
         Ray ray = new Ray(body.position + (body.right * footSpacing), Vector3.down);
         if (Physics.Raycast(ray, out RaycastHit hit, 10, terrainLayer.value))
         {
-            if (Vector3.Distance(newPosition, hit.point) >stepDistance && !otherFoot.isMoving() && lerp >= 1)
+            if (Vector3.Distance(newPosition, hit.point) > stepDistance && !otherFoot.isMoving() && lerp >= 1)
             {
                 lerp = 0;
                 //inverseTransformPoint converts the given position from world to local
