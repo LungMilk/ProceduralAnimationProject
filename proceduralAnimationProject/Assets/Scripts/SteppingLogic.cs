@@ -16,6 +16,8 @@ public class SteppingLogic : MonoBehaviour
     public float stepDistance;
     public float stepHeight;
     public float speed;
+    public float forwardMovementPrediction;
+
     private float lerp;
     private void Update()
     {
@@ -31,7 +33,7 @@ public class SteppingLogic : MonoBehaviour
         }
         if (lerp < 1)
         {
-            Vector3 footPosition = Vector3.Lerp(oldPosition,newPosition,lerp);
+            Vector3 footPosition = Vector3.Lerp(oldPosition,newPosition + (Vector3.forward * forwardMovementPrediction),lerp);
             footPosition.y += Mathf.Sin(lerp * Mathf.PI) * stepHeight;
 
             currentPosition = footPosition;
