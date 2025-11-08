@@ -36,7 +36,7 @@ public class BezierCurve : MonoBehaviour
         for (int i = 1; i < numPoints + 1; i++)
         {
             float t = i / (float)numPoints;
-            positions[i - 1] = CalculateQuadraticBezierPoint(t, point0.position, point1.position, point2);
+            positions[i - 1] = CalculateQuadraticBezierPoint(t, point0.position, point2, point1.position);
         }
     }
     //don't really need all the parameters for these or just have the quadratic curve give the points anyway in the step function
@@ -59,6 +59,15 @@ public class BezierCurve : MonoBehaviour
         return p;
     }
 
+    public Vector3 CalculateCubicBezierPoint(float t, Vector3 Point0, Vector3 Point1, Vector3 Point2, Vector3 Point3)
+    {
+        //https://www.youtube.com/watch?v=RF04Fi9OCPc
+        //I need to calculate a point along the curve but I do not know how I could have the step height calculate for both points.
+        Vector3 A = CalculateQuadraticBezierPoint(t,Point0,Point1,Point2);
+        Vector3 B = CalculateQuadraticBezierPoint(t, Point1, Point2, Point3);
+
+        return Vector3.Lerp(A, B, t);
+    }
     public void SetStepHeightPoint(float stepHeight)
     {
         //we need to somehow get the middle position between point 0 and 1 and then increase the position on the vertical axis by step height
@@ -69,6 +78,10 @@ public class BezierCurve : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Handles.DrawBezier(point0.position, point1.position, Vector3.up * arcHeight, Vector3.up * arcHeight, Color.green, null, 5f);
+        DrawQuadraticCurve();
+        for (int i = 0; i < positions.Length -1;i++)
+        {
+            Debug.DrawLine(positions[i],positions[i + 1],Color.green);
+        }
     }
 }
