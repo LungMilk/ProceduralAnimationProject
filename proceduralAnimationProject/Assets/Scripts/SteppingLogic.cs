@@ -34,12 +34,14 @@ public class SteppingLogic : MonoBehaviour
             target.position = info.point;
             
         }
-
+        //get the distance between our current foot position
         float distance = Vector3.Distance(foot.position, info.point);
-        Debug.DrawLine(foot.position, target.position);
+        //get the distance between the old position and the farthest bounds in our forward direction
+        float maxDistance = Vector3.Distance(foot.position, foot.position + (Vector3.forward * stepDistance));
+        Debug.DrawLine(foot.position, foot.position + (Vector3.forward * stepDistance), Color.red);
 
-        float percentInStep = Mathf.Clamp01(distance / stepDistance);
-
+        float percentInStep = Mathf.Clamp01(distance / maxDistance);
+        print($"distance: {percentInStep}, maxDistance: {maxDistance}, percent: {percentInStep}");
         currentPosition = stepCurve.CalculateQuadraticBezierPoint(percentInStep, stepCurve.point1, stepCurve.point2, stepCurve.point0.position);
 
         //print(distance);
