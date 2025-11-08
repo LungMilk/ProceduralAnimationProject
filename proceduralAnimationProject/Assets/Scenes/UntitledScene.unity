@@ -988,10 +988,10 @@ MonoBehaviour:
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
-  stepDistance: 10
+  stepDistance: 1
   stepHeight: 1
   speed: 1
-  stepCurve: {fileID: 0}
+  stepCurve: {fileID: 994438044}
 --- !u!1001 &1056076903
 PrefabInstance:
   m_ObjectHideFlags: 0

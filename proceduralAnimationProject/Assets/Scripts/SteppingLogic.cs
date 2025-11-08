@@ -24,38 +24,31 @@ public class SteppingLogic : MonoBehaviour
     private float lerp;
     private void Start()
     {
-        stepCurve.SetStepHeightPoint(stepHeight);
+        stepCurve.arcHeight = stepHeight;
     }
     private void Update()
     {
-        //currently we are updating the current position every frame
         Ray ray = new Ray(body.position + (body.right * footSpacing), Vector3.down);
         if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
         {
             target.position = info.point;
-            float distance = Vector3.Distance(foot.position, info.point);
-            Debug.DrawLine(foot.position, target.position);
-
-            float percentInStep = Mathf.Clamp01(distance / stepDistance);
-            //print(distance);
-            if (distance > stepDistance)
-            {
-                currentPosition = target.position;
-                print("A");
-            }
         }
-        //if (lerp < 1)
-        //{
-        //    Vector3 footPosition = Vector3.Lerp(oldPosition,newPosition + (Vector3.forward * forwardMovementPrediction),lerp);
-        //    footPosition.y += Mathf.Sin(lerp * Mathf.PI) * stepHeight;
 
-        //    currentPosition = footPosition;
-        //    lerp += Time.deltaTime * speed;
-        //}
-        //else
-        //{
-        //    oldPosition = newPosition;
-        //}
+        float distance = Vector3.Distance(foot.position, info.point);
+        Debug.DrawLine(foot.position, target.position);
+
+        float percentInStep = Mathf.Clamp01(distance / stepDistance);
+
+        //currentPosition = stepCurve.CalculateQuadraticBezierPoint(percentInStep, stepCurve.point0.position, stepCurve.point1.position, stepCurve.point2);
+
+        //print(distance);
+        if (distance > stepDistance)
+        {
+            //when we have overshot our step distance
+            //this should be whatever happens at the end of a stride
+            currentPosition = target.position;
+            print("A");
+        }
         foot.position = currentPosition;
     }
     private void OnDrawGizmos()
