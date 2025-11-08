@@ -490,6 +490,7 @@ MonoBehaviour:
   stepDistance: 0.3
   stepHeight: 0.5
   speed: 4
+  stepCurve: {fileID: 0}
 --- !u!1 &591416998
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,8 +861,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 994438045}
   point0: {fileID: 1056076966}
-  point1: {fileID: 678018292}
-  point3: {fileID: 199170512}
+  point1: {fileID: 1561745653}
 --- !u!120 &994438045
 LineRenderer:
   serializedVersion: 2
@@ -991,6 +991,7 @@ MonoBehaviour:
   stepDistance: 10
   stepHeight: 1
   speed: 1
+  stepCurve: {fileID: 0}
 --- !u!1001 &1056076903
 PrefabInstance:
   m_ObjectHideFlags: 0

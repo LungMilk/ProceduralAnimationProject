@@ -17,10 +17,15 @@ public class SteppingLogic : MonoBehaviour
     public float stepDistance;
     public float stepHeight;
     public float speed;
+
+    public BezierCurve stepCurve;
     //public float forwardMovementPrediction;
 
     private float lerp;
-
+    private void Start()
+    {
+        stepCurve.SetStepHeightPoint(stepHeight);
+    }
     private void Update()
     {
         //currently we are updating the current position every frame
@@ -28,14 +33,14 @@ public class SteppingLogic : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
         {
             target.position = info.point;
-
             float distance = Vector3.Distance(foot.position, info.point);
             Debug.DrawLine(foot.position, target.position);
 
+            float percentInStep = Mathf.Clamp01(distance / stepDistance);
             //print(distance);
             if (distance > stepDistance)
             {
-                foot.position = target.position;
+                currentPosition = target.position;
                 print("A");
             }
         }
@@ -51,6 +56,7 @@ public class SteppingLogic : MonoBehaviour
         //{
         //    oldPosition = newPosition;
         //}
+        foot.position = currentPosition;
     }
     private void OnDrawGizmos()
     {

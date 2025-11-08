@@ -4,8 +4,9 @@ public class BezierCurve : MonoBehaviour
 {
     //https://www.youtube.com/watch?v=Xwj8_z9OrFw&t=2s
     public LineRenderer lineRenderer;
-    public Transform point0, point1, point3;
-
+    public Transform point0, point1;
+    private Vector3 point2;
+    //point 0 is the foot, point 1 is the target, point 2 is the step height point
     private int numPoints = 50;
     private Vector3[] positions = new Vector3[50];
 
@@ -33,7 +34,7 @@ public class BezierCurve : MonoBehaviour
         for (int i = 1; i < numPoints + 1; i++)
         {
             float t = i / (float)numPoints;
-            positions[i - 1] = CalculateQuadraticBezierPoint(t, point0.position, point1.position,point3.position);
+            positions[i - 1] = CalculateQuadraticBezierPoint(t, point0.position, point1.position, point2);
         }
     }
     private Vector3 CalculateLinearBezierPoint(float t, Vector3 Point0,Vector3 Point1)
@@ -53,5 +54,13 @@ public class BezierCurve : MonoBehaviour
         p += tt * Point2;
 
         return p;
+    }
+
+    public void SetStepHeightPoint(float stepHeight)
+    {
+        //we need to somehow get the middle position between point 0 and 1 and then increase the position on the vertical axis by step height
+        Vector3 midPoint = (point0.position + point1.position) / 2f;
+        midPoint.y += stepHeight;
+        point2 = midPoint;
     }
 }
