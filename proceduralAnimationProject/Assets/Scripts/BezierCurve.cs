@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEditor;
 public class BezierCurve : MonoBehaviour
 {
     //https://www.youtube.com/watch?v=Xwj8_z9OrFw&t=2s
@@ -65,5 +65,10 @@ public class BezierCurve : MonoBehaviour
         Vector3 midPoint = (point0.position + point1.position) / 2f;
         midPoint.y += stepHeight;
         point2 = midPoint;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Handles.DrawBezier(point0.position, point1.position, Vector3.up * arcHeight, Vector3.up * arcHeight, Color.green, null, 5f);
     }
 }
