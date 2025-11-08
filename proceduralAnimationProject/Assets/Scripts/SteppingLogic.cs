@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class SteppingLogic : MonoBehaviour
 {
-    //https://www.youtube.com/watch?v=acMK93A-FSY
-    //FootSystem is similar but contains the normals of the hit point which would help in the foots alignment to the ground
 
     public Transform body;
+    public Transform target;
+    public Transform foot;
+
     public float footSpacing;
     public LayerMask terrainLayer;
     private Vector3 currentPosition;
@@ -16,38 +17,45 @@ public class SteppingLogic : MonoBehaviour
     public float stepDistance;
     public float stepHeight;
     public float speed;
-    public float forwardMovementPrediction;
+    //public float forwardMovementPrediction;
 
     private float lerp;
+
     private void Update()
     {
-        transform.position = currentPosition;
+        //currently we are updating the current position every frame
         Ray ray = new Ray(body.position + (body.right * footSpacing), Vector3.down);
         if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
         {
-            if(Vector3.Distance(newPosition,info.point)> stepDistance)
+            target.position = info.point;
+
+            float distance = Vector3.Distance(foot.position, info.point);
+            Debug.DrawLine(foot.position, target.position);
+
+            //print(distance);
+            if (distance > stepDistance)
             {
-                lerp = 0;
-                newPosition = info.point;
+                foot.position = target.position;
+                print("A");
             }
         }
-        if (lerp < 1)
-        {
-            Vector3 footPosition = Vector3.Lerp(oldPosition,newPosition + (Vector3.forward * forwardMovementPrediction),lerp);
-            footPosition.y += Mathf.Sin(lerp * Mathf.PI) * stepHeight;
+        //if (lerp < 1)
+        //{
+        //    Vector3 footPosition = Vector3.Lerp(oldPosition,newPosition + (Vector3.forward * forwardMovementPrediction),lerp);
+        //    footPosition.y += Mathf.Sin(lerp * Mathf.PI) * stepHeight;
 
-            currentPosition = footPosition;
-            lerp += Time.deltaTime * speed;
-        }
-        else
-        {
-            oldPosition = newPosition;
-        }
+        //    currentPosition = footPosition;
+        //    lerp += Time.deltaTime * speed;
+        //}
+        //else
+        //{
+        //    oldPosition = newPosition;
+        //}
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(newPosition, 0.1f);
+        Gizmos.DrawSphere(target.position, 0.1f);
     }
     //void FootPosition()
     //{

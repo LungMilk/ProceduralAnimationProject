@@ -34,7 +34,7 @@ public class GetHeight : MonoBehaviour
             {
                 Debug.DrawLine(hit.point, body.position,Color.green);
                 body.position = hit.point + (body.up * maxHeight);
-                print(distance);
+                //print(distance);
             }
         }
     }
