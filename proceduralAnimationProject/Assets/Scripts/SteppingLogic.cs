@@ -32,6 +32,7 @@ public class SteppingLogic : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
         {
             target.position = info.point;
+            
         }
 
         float distance = Vector3.Distance(foot.position, info.point);
@@ -39,7 +40,7 @@ public class SteppingLogic : MonoBehaviour
 
         float percentInStep = Mathf.Clamp01(distance / stepDistance);
 
-        //currentPosition = stepCurve.CalculateQuadraticBezierPoint(percentInStep, stepCurve.point0.position, stepCurve.point1.position, stepCurve.point2);
+        currentPosition = stepCurve.CalculateQuadraticBezierPoint(percentInStep, stepCurve.point1, stepCurve.point2, stepCurve.point0.position);
 
         //print(distance);
         if (distance > stepDistance)
@@ -47,6 +48,7 @@ public class SteppingLogic : MonoBehaviour
             //when we have overshot our step distance
             //this should be whatever happens at the end of a stride
             currentPosition = target.position;
+            stepCurve.point1 = target.position;
             print("A");
         }
         foot.position = currentPosition;

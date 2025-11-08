@@ -860,8 +860,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 994438045}
-  point0: {fileID: 678018292}
-  point1: {fileID: 1561745653}
+  point0: {fileID: 1561745653}
+  point1: {x: 0, y: 0, z: 0}
   point2: {x: 0, y: 0, z: 0}
   arcHeight: 1
 --- !u!120 &994438045
