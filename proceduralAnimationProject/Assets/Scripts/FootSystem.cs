@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class FootSystem : MonoBehaviour
 {
+    //NO LONGER BEING USED
     //https://www.youtube.com/watch?v=FXhjhlNvvfw
     public LayerMask terrainLayer;
     public FootSystem otherFoot;
