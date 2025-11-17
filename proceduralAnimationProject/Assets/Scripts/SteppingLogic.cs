@@ -51,6 +51,7 @@ public class SteppingLogic : MonoBehaviour
         if (distance > stepDistance && !stepping)
         {
             //whaty happens at the start of a step
+            print("begin step");
             stepping = true;
             newPosition = target.position;
             oldPosition = foot.position;
@@ -82,7 +83,10 @@ public class SteppingLogic : MonoBehaviour
 
         if (!stepping)
         {
-            foot.position = target.position;
+            //we want the foot to stop moving
+
+            stepCurve.point1 = newPosition;
+            foot.position = newPosition;
         }
     }
     private void OnDrawGizmos()
