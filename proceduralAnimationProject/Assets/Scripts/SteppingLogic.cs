@@ -1,6 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.Events;
 public class SteppingLogic : MonoBehaviour
 {
 
@@ -19,7 +19,10 @@ public class SteppingLogic : MonoBehaviour
     public float stepDuration;
     public float speed;
 
-    bool stepping = false;
+    public bool stepping = false;
+    public bool canStep;
+
+    public UnityEvent<SteppingLogic> OnStepFinished;
 
     public BezierCurve stepCurve;
     public float forwardMovementPrediction;
@@ -32,13 +35,7 @@ public class SteppingLogic : MonoBehaviour
     private void Update()
     {
         //first we establish our ray that we want to cast and its offsets with the body
-        Ray ray = new Ray(body.position + ((body.forward * forwardMovementPrediction) + (body.right * footSpacing)), Vector3.down);
-        //then we take that ray and hit the floor
-        if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
-        {
-            target.position = info.point;
-            //giving a position underneath the character
-        }
+        RaycastHit info = FindPositionOnFloor();
         //Target is the target we want our foot to travel to
         //once the target point overreaches our threshold
         //we need to step
@@ -50,45 +47,80 @@ public class SteppingLogic : MonoBehaviour
         float distance = Vector3.Distance(foot.position, info.point);
         if (distance > stepDistance && !stepping)
         {
-            //whaty happens at the start of a step
-            print("begin step");
-            stepping = true;
-            newPosition = target.position;
-            oldPosition = foot.position;
-
-            stepCurve.point1 = oldPosition;
-            stepCurve.point0.position = newPosition;
+            canStep = true;
+            InitializeStepValues();
         }
 
         //since we are now stepping
         if (stepping)
         {
-            //we make a lerp timer to track its travel path along the curve
-            lerp += Time.deltaTime * speed;
-            //our bezier func only takes 0-1 so we think of this as a percent of time from a counter that continues to increase.
-            float time = Mathf.Clamp01(lerp);
-
-            currentPosition = stepCurve.CalculateQuadraticBezierPoint(time, stepCurve.point1, stepCurve.point2, stepCurve.point0.position);
-            //whatever position we get from the curve is then applied to the foot position
-            foot.position = currentPosition;
-
-            //then when the intended step duration is exceeded we have stopped stepping and reset for another step.
-            if(time >= stepDuration)
-            {
-                stepping = false;
-                lerp = 0;
-                print("Reset stepping");
-            }
+            Stepping();
         }
 
         if (!stepping)
         {
             //we want the foot to stop moving
-
             stepCurve.point1 = newPosition;
             foot.position = newPosition;
         }
     }
+
+    private void InitializeStepValues()
+    {
+        //whaty happens at the start of a step
+        print("begin step");
+        //stepping = true;
+        newPosition = target.position;
+        oldPosition = foot.position;
+
+        stepCurve.point1 = oldPosition;
+        stepCurve.point0.position = newPosition;
+    }
+
+    private RaycastHit FindPositionOnFloor()
+    {
+        Ray ray = new Ray(body.position + ((body.forward * forwardMovementPrediction) + (body.right * footSpacing)), Vector3.down);
+        //then we take that ray and hit the floor
+        if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
+        {
+            target.position = info.point;
+            //giving a position underneath the character
+        }
+
+        return info;
+    }
+
+    private void Stepping()
+    {
+        //we make a lerp timer to track its travel path along the curve
+        lerp += Time.deltaTime * speed;
+        //our bezier func only takes 0-1 so we think of this as a percent of time from a counter that continues to increase.
+        float time = Mathf.Clamp01(lerp);
+
+        currentPosition = stepCurve.CalculateQuadraticBezierPoint(time, stepCurve.point1, stepCurve.point2, stepCurve.point0.position);
+        //whatever position we get from the curve is then applied to the foot position
+        foot.position = currentPosition;
+
+        //then when the intended step duration is exceeded we have stopped stepping and reset for another step.
+        if (time >= stepDuration)
+        {
+            stepping = false;
+            lerp = 0;
+            canStep = false;
+            print("Reset stepping");
+        }
+    }
+
+    public bool RequestStep()
+    {
+        if (canStep)
+        {
+            stepping = true;
+            return canStep;
+        }
+        return canStep;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

@@ -1,5 +1,11 @@
 using UnityEngine;
 
+public enum FootSide
+{
+    Left,
+    Right,
+}
+
 public class FootSystem : MonoBehaviour
 {
     //NO LONGER BEING USED

@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 160955777}
   - component: {fileID: 160955776}
   - component: {fileID: 160955778}
+  - component: {fileID: 160955779}
   m_Layer: 0
   m_Name: Rig
   m_TagString: Untagged
@@ -313,6 +314,23 @@ MonoBehaviour:
     m_Bits: 64
   body: {fileID: 1056076970}
   maxHeight: 1
+--- !u!114 &160955779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160955775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6117d6c0f42f64d4fbe17391a981aba4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feet:
+  - {fileID: 994438046}
+  - {fileID: 591417003}
+  activeFeet: []
+  activeFoot: 
 --- !u!1 &187308995
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,6 +694,11 @@ MonoBehaviour:
   stepHeight: 1
   stepDuration: 1
   speed: 1
+  stepping: 0
+  canStep: 0
+  OnStepFinished:
+    m_PersistentCalls:
+      m_Calls: []
   stepCurve: {fileID: 591417002}
   forwardMovementPrediction: 0.3
 --- !u!1 &645746855
@@ -1123,6 +1146,11 @@ MonoBehaviour:
   stepHeight: 1
   stepDuration: 1
   speed: 2
+  stepping: 0
+  canStep: 0
+  OnStepFinished:
+    m_PersistentCalls:
+      m_Calls: []
   stepCurve: {fileID: 994438044}
   forwardMovementPrediction: 0.3
 --- !u!1001 &1056076903
