@@ -18,6 +18,8 @@ public class SteppingLogic : MonoBehaviour
     public float stepHeight;
     public float speed;
 
+    bool stepping = false;
+
     public BezierCurve stepCurve;
     //public float forwardMovementPrediction;
 
@@ -28,30 +30,50 @@ public class SteppingLogic : MonoBehaviour
     }
     private void Update()
     {
+        //first we establish our ray that we want to cast and its offsets with the body
         Ray ray = new Ray(body.position + (body.right * footSpacing), Vector3.down);
+        //then we take that ray and hit the floor
         if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
         {
             target.position = info.point;
-            
+            //giving a position underneath the character
         }
-        //get the distance between our current foot position
+        //Target is the target we want our foot to travel to
+        //once the target point overreaches our threshold
+        //we need to step
+        //If the distance between where the foot currently is and our target position beyond where the foot is, is larger then our step distance, we should begin to take a step.
+        //Vector3 footPosOnGround = new Vector3(oldPosition.x, oldPosition.y, oldPosition.z);
+        //our distance before we are even stepping.
         float distance = Vector3.Distance(foot.position, info.point);
-        //get the distance between the old position and the farthest bounds in our forward direction
-        float maxDistance = Vector3.Distance(foot.position, foot.position + (Vector3.forward * stepDistance));
-        Debug.DrawLine(foot.position, foot.position + (Vector3.forward * stepDistance), Color.red);
-
-        float percentInStep = Mathf.Clamp01(distance / maxDistance);
-        print($"distance: {percentInStep}, maxDistance: {maxDistance}, percent: {percentInStep}");
-        currentPosition = stepCurve.CalculateQuadraticBezierPoint(percentInStep, stepCurve.point1, stepCurve.point2, stepCurve.point0.position);
-
-        //print(distance);
-        if (distance > stepDistance)
+        if (distance > stepDistance && !stepping)
         {
-            //when we have overshot our step distance
-            //this should be whatever happens at the end of a stride
-            currentPosition = target.position;
-            stepCurve.point1 = target.position;
-            print("A");
+            //whaty happens at the start of a step
+            stepping = true;
+            newPosition = target.position;
+            oldPosition = foot.position;
+
+            stepCurve.point1 = oldPosition;
+            stepCurve.point0.position = newPosition;
+        }
+
+
+        if (stepping)
+        {
+            //this is now also useless as I have newPosition
+            Vector3 thresholdPosition = new Vector3();
+            thresholdPosition = oldPosition + oldPosition + (Vector3.forward * stepDistance);
+            //can this not be step length/distance?
+            //float maxDistance = Vector3.Distance(oldPosition, thresholdPosition);
+
+            Debug.DrawLine(oldPosition, oldPosition + (Vector3.forward * stepDistance), Color.red);
+            //this needs to be our percentage in the arc of our step.
+            float percentInStep = Mathf.Clamp01(distance / stepDistance);
+
+            //Some how we need to modify what percent in the step we are based on step duration;
+
+            //how are we increasing the rate at which our step goes through the arc?
+            print($"distance: {percentInStep}, maxDistance: {stepDistance}, percent: {percentInStep}");
+            currentPosition = stepCurve.CalculateQuadraticBezierPoint(percentInStep, stepCurve.point1, stepCurve.point2, stepCurve.point0.position);
         }
         foot.position = currentPosition;
     }
