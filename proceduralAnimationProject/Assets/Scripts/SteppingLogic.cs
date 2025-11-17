@@ -16,6 +16,7 @@ public class SteppingLogic : MonoBehaviour
     //distance between steps
     public float stepDistance;
     public float stepHeight;
+    public float stepDuration;
     public float speed;
 
     bool stepping = false;
@@ -44,6 +45,8 @@ public class SteppingLogic : MonoBehaviour
         //If the distance between where the foot currently is and our target position beyond where the foot is, is larger then our step distance, we should begin to take a step.
         //Vector3 footPosOnGround = new Vector3(oldPosition.x, oldPosition.y, oldPosition.z);
         //our distance before we are even stepping.
+
+        //if the distance between where the foot is and the target position is farther then step distance we should begin stepping.
         float distance = Vector3.Distance(foot.position, info.point);
         if (distance > stepDistance && !stepping)
         {
@@ -56,26 +59,31 @@ public class SteppingLogic : MonoBehaviour
             stepCurve.point0.position = newPosition;
         }
 
-
+        //since we are now stepping
         if (stepping)
         {
-            //this is now also useless as I have newPosition
-            Vector3 thresholdPosition = new Vector3();
-            thresholdPosition = oldPosition + oldPosition + (Vector3.forward * stepDistance);
-            //can this not be step length/distance?
-            //float maxDistance = Vector3.Distance(oldPosition, thresholdPosition);
+            //we make a lerp timer to track its travel path along the curve
+            lerp += Time.deltaTime * speed;
+            //our bezier func only takes 0-1 so we think of this as a percent of time from a counter that continues to increase.
+            float time = Mathf.Clamp01(lerp);
 
-            Debug.DrawLine(oldPosition, oldPosition + (Vector3.forward * stepDistance), Color.red);
-            //this needs to be our percentage in the arc of our step.
-            float percentInStep = Mathf.Clamp01(distance / stepDistance);
+            currentPosition = stepCurve.CalculateQuadraticBezierPoint(time, stepCurve.point1, stepCurve.point2, stepCurve.point0.position);
+            //whatever position we get from the curve is then applied to the foot position
+            foot.position = currentPosition;
 
-            //Some how we need to modify what percent in the step we are based on step duration;
-
-            //how are we increasing the rate at which our step goes through the arc?
-            print($"distance: {percentInStep}, maxDistance: {stepDistance}, percent: {percentInStep}");
-            currentPosition = stepCurve.CalculateQuadraticBezierPoint(percentInStep, stepCurve.point1, stepCurve.point2, stepCurve.point0.position);
+            //then when the intended step duration is exceeded we have stopped stepping and reset for another step.
+            if(time >= stepDuration)
+            {
+                stepping = false;
+                lerp = 0;
+                print("Reset stepping");
+            }
         }
-        foot.position = currentPosition;
+
+        if (!stepping)
+        {
+            foot.position = target.position;
+        }
     }
     private void OnDrawGizmos()
     {
