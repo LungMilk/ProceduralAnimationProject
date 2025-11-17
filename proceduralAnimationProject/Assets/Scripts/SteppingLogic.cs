@@ -22,8 +22,6 @@ public class SteppingLogic : MonoBehaviour
     public bool stepping = false;
     public bool canStep;
 
-    public UnityEvent<SteppingLogic> OnStepFinished;
-
     public BezierCurve stepCurve;
     public float forwardMovementPrediction;
 
@@ -60,7 +58,6 @@ public class SteppingLogic : MonoBehaviour
         if (!stepping)
         {
             //we want the foot to stop moving
-            stepCurve.point1 = newPosition;
             foot.position = newPosition;
         }
     }
@@ -72,7 +69,7 @@ public class SteppingLogic : MonoBehaviour
         //stepping = true;
         newPosition = target.position;
         oldPosition = foot.position;
-
+        //arguably these are confusing for a reader and a better visualization method should be explored.
         stepCurve.point1 = oldPosition;
         stepCurve.point0.position = newPosition;
     }
@@ -107,6 +104,7 @@ public class SteppingLogic : MonoBehaviour
             stepping = false;
             lerp = 0;
             canStep = false;
+            stepCurve.point1 = target.position;
             print("Reset stepping");
         }
     }

@@ -46,16 +46,16 @@ public class BezierCurve : MonoBehaviour
         return Point0 + t * (Point1 - Point0);
     }
 
-    public Vector3 CalculateQuadraticBezierPoint(float t, Vector3 Point0, Vector3 Point1, Vector3 Point2)
+    public Vector3 CalculateQuadraticBezierPoint(float t, Vector3 Start, Vector3 Arc, Vector3 End)
     {
         // uu * p0 + 2 * u * t * p1 + tt * p2
         float u = 1 - t;
         float tt = t * t;
         float uu = u * u;
 
-        Vector3 p = uu * Point0;
-        p += 2 * u * t * Point1;
-        p += tt * Point2;
+        Vector3 p = uu * Start;
+        p += 2 * u * t * Arc;
+        p += tt * End;
 
         return p;
     }
