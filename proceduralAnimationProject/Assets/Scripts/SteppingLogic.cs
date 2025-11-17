@@ -22,7 +22,7 @@ public class SteppingLogic : MonoBehaviour
     bool stepping = false;
 
     public BezierCurve stepCurve;
-    //public float forwardMovementPrediction;
+    public float forwardMovementPrediction;
 
     private float lerp;
     private void Start()
@@ -32,7 +32,7 @@ public class SteppingLogic : MonoBehaviour
     private void Update()
     {
         //first we establish our ray that we want to cast and its offsets with the body
-        Ray ray = new Ray(body.position + (body.right * footSpacing), Vector3.down);
+        Ray ray = new Ray(body.position + ((body.forward * forwardMovementPrediction) + (body.right * footSpacing)), Vector3.down);
         //then we take that ray and hit the floor
         if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
         {
