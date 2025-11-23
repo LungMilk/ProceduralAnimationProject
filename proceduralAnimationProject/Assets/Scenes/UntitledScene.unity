@@ -330,6 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6117d6c0f42f64d4fbe17391a981aba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charState: {fileID: 1056076975}
   feet:
   - {fileID: 994438046}
   - {fileID: 591417003}
@@ -702,6 +703,7 @@ MonoBehaviour:
   canStep: 0
   stepCurve: {fileID: 591417002}
   forwardMovementPrediction: 0.3
+  stepDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &645746855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,6 +1153,7 @@ MonoBehaviour:
   canStep: 0
   stepCurve: {fileID: 994438044}
   forwardMovementPrediction: 0.3
+  stepDirection: {x: 0, y: 0, z: 0}
 --- !u!1001 &1056076903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1227,6 +1230,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1056076974}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 81bb9eea30387e442899949a80011e55, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1056076975}
   m_SourcePrefab: {fileID: 100100000, guid: 81bb9eea30387e442899949a80011e55, type: 3}
 --- !u!1 &1056076904 stripped
 GameObject:
@@ -1684,6 +1690,22 @@ MonoBehaviour:
   rayOffset: 0.2
   maxHeight: 0
   adjustSpeed: 10
+--- !u!114 &1056076975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056076904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdaa8d0d10e57d1438d65d1a96d95e2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 1056076970}
+  velocity: {x: 0, y: 0, z: 0}
+  direction: {x: 0, y: 0, z: 0}
+  speed: 0
 --- !u!1 &1561745652
 GameObject:
   m_ObjectHideFlags: 0

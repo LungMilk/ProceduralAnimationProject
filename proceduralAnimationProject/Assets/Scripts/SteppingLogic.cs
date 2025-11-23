@@ -24,6 +24,7 @@ public class SteppingLogic : MonoBehaviour
 
     public BezierCurve stepCurve;
     public float forwardMovementPrediction;
+    public Vector3 stepDirection;
 
     private float lerp;
     private void Start()
@@ -76,7 +77,7 @@ public class SteppingLogic : MonoBehaviour
 
     private RaycastHit FindPositionOnFloor()
     {
-        Ray ray = new Ray(body.position + ((body.forward * forwardMovementPrediction) + (body.right * footSpacing)), Vector3.down);
+        Ray ray = new Ray(body.position + ((stepDirection) + (body.right * footSpacing)), Vector3.down);
         //then we take that ray and hit the floor
         if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
         {

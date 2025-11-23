@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 public class FootManager : MonoBehaviour
 {
+    public CharacterState charState;
     public List<SteppingLogic> feet;
     public List<SteppingLogic> activeFeet;
     //having it be a list could mean that I can have lots of feet??
@@ -10,7 +11,6 @@ public class FootManager : MonoBehaviour
 
     //I would like to display the active foot
     public string activeFoot;
-
     private void Awake()
     {
 
@@ -22,6 +22,7 @@ public class FootManager : MonoBehaviour
         {
             if (foot.RequestStep())
             {
+                foot.stepDirection = charState.direction;
                 break;
             }
         }

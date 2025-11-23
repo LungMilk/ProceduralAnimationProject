@@ -47,9 +47,11 @@ public class GetHeight : MonoBehaviour
 
     void MaintainHeightAboveGround()
     {
-        Vector3 origin = body.position + Vector3.up * rayOffset;
+        //our ray we will shoot into the ground offset from the bodys starting position
+        Vector3 origin = body.position + (Vector3.up * rayOffset);
         Ray ray = new Ray(origin, Vector3.down);
 
+        //draw for fun
         Debug.DrawRay(origin, Vector3.down * 10f, Color.red);
 
         if (Physics.Raycast(ray,out RaycastHit hit, 10f, terrainLayer))
