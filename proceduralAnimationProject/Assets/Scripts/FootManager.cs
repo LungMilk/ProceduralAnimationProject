@@ -18,12 +18,27 @@ public class FootManager : MonoBehaviour
 
     private void Update()
     {
+        //each frame update the direction for the feet and their speed.
         foreach (SteppingLogic foot in feet)
         {
-            if (foot.RequestStep())
+            foot.stepDirection = charState.direction;
+            foot.forwardMovementPrediction = charState.speed;
+        }
+
+        //this for loop will interupt the code if a foot is currently stepping.
+        foreach (SteppingLogic foot in feet)
+        {
+            if (foot.stepping)
+                return;
+        }
+
+        //if no foot is stepping then we call a new step.
+        foreach (SteppingLogic foot in feet)
+        {
+            if (foot.canStep)
             {
-                foot.stepDirection = charState.direction;
-                break;
+                foot.StartStep();
+                return;
             }
         }
     }

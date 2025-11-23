@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.Events;
 public class SteppingLogic : MonoBehaviour
 {
-
     public Transform body;
     public Transform target;
     public Transform foot;
@@ -25,6 +24,8 @@ public class SteppingLogic : MonoBehaviour
     public BezierCurve stepCurve;
     public float forwardMovementPrediction;
     public Vector3 stepDirection;
+    private Vector3 smoothDir;
+    public float directionSmoothing;
 
     private float lerp;
     private void Start()
@@ -33,32 +34,33 @@ public class SteppingLogic : MonoBehaviour
     }
     private void Update()
     {
+        if (stepping)
+        {
+            Stepping();
+            return;
+        }
         //first we establish our ray that we want to cast and its offsets with the body
+        smoothDir = Vector3.Lerp(smoothDir, stepDirection.normalized, Time.deltaTime * directionSmoothing);
         RaycastHit info = FindPositionOnFloor();
         //Target is the target we want our foot to travel to
         //once the target point overreaches our threshold
         //we need to step
-        //If the distance between where the foot currently is and our target position beyond where the foot is, is larger then our step distance, we should begin to take a step.
+        //If the distance between where the foot currently is and our target position beyond 
+
         //Vector3 footPosOnGround = new Vector3(oldPosition.x, oldPosition.y, oldPosition.z);
         //our distance before we are even stepping.
 
-        //if the distance between where the foot is and the target position is farther then step distance we should begin stepping.
+        //if the distance between where the foot is and the target position is farther then 
         float distance = Vector3.Distance(foot.position, info.point);
-        if (distance > stepDistance && !stepping)
+        if (distance > stepDistance)
         {
             canStep = true;
             InitializeStepValues();
         }
-
-        //since we are now stepping
-        if (stepping)
+        //we want the foot to stop moving
+        if (!stepping && !canStep)
         {
-            Stepping();
-        }
-
-        if (!stepping)
-        {
-            //we want the foot to stop moving
+            newPosition = target.position;
             foot.position = newPosition;
         }
     }
@@ -77,9 +79,12 @@ public class SteppingLogic : MonoBehaviour
 
     private RaycastHit FindPositionOnFloor()
     {
-        Ray ray = new Ray(body.position + ((stepDirection) + (body.right * footSpacing)), Vector3.down);
+        //body position is the hips + (which side fo the leg we are on) + (our travel direction * speed)
+        Vector3 origin = body.position + (body.right * footSpacing) + (smoothDir * forwardMovementPrediction);
+
+        Ray ray = new Ray(origin, Vector3.down);
         //then we take that ray and hit the floor
-        if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
+        if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value) && !stepping)
         {
             target.position = info.point;
             //giving a position underneath the character
@@ -88,10 +93,10 @@ public class SteppingLogic : MonoBehaviour
         return info;
     }
 
-    private void Stepping()
+    public void Stepping()
     {
         //we make a lerp timer to track its travel path along the curve
-        lerp += Time.deltaTime * speed;
+        lerp += Time.deltaTime * (speed);
         //our bezier func only takes 0-1 so we think of this as a percent of time from a counter that continues to increase.
         float time = Mathf.Clamp01(lerp);
 
@@ -109,15 +114,11 @@ public class SteppingLogic : MonoBehaviour
             print("Reset stepping");
         }
     }
-
-    public bool RequestStep()
+    public void StartStep()
     {
-        if (canStep)
-        {
-            stepping = true;
-            return canStep;
-        }
-        return canStep;
+        stepping = true;
+        canStep = false;
+        lerp = 0;
     }
 
     private void OnDrawGizmos()
