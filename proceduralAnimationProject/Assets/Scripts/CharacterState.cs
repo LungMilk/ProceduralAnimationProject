@@ -18,10 +18,17 @@ public class CharacterState : MonoBehaviour
     {
         //classic velocity equation (d2 - d1) / t = v
         velocity = (body.position - oldPosition) / Time.deltaTime;
-
-        //turn it into direction
-        direction = velocity.normalized;
-        speed = velocity.magnitude;
+        //when standing still it might be some very small value 
+        if (velocity.magnitude < 0.05f)
+        {
+            direction = Vector3.zero;
+            speed = 0;
+        }
+        else
+        {
+            direction = velocity.normalized;
+            speed = velocity.magnitude;
+        }
 
         oldPosition = body.position;
     }

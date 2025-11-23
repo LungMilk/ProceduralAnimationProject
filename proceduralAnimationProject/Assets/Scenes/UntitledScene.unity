@@ -704,6 +704,7 @@ MonoBehaviour:
   stepCurve: {fileID: 591417002}
   forwardMovementPrediction: 0.3
   stepDirection: {x: 0, y: 0, z: 0}
+  directionSmoothing: 10
 --- !u!1 &645746855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1154,6 +1155,7 @@ MonoBehaviour:
   stepCurve: {fileID: 994438044}
   forwardMovementPrediction: 0.3
   stepDirection: {x: 0, y: 0, z: 0}
+  directionSmoothing: 10
 --- !u!1001 &1056076903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1164,7 +1166,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1172,7 +1174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.67
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_LocalRotation.w

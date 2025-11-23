@@ -40,7 +40,7 @@ public class SteppingLogic : MonoBehaviour
             return;
         }
         //first we establish our ray that we want to cast and its offsets with the body
-        smoothDir = Vector3.Lerp(smoothDir, stepDirection.normalized, Time.deltaTime * directionSmoothing);
+        //smoothDir = Vector3.Lerp(smoothDir, stepDirection.normalized, Time.deltaTime * directionSmoothing);
         RaycastHit info = FindPositionOnFloor();
         //Target is the target we want our foot to travel to
         //once the target point overreaches our threshold
@@ -80,7 +80,7 @@ public class SteppingLogic : MonoBehaviour
     private RaycastHit FindPositionOnFloor()
     {
         //body position is the hips + (which side fo the leg we are on) + (our travel direction * speed)
-        Vector3 origin = body.position + (body.right * footSpacing) + (smoothDir * forwardMovementPrediction);
+        Vector3 origin = body.position + (body.right * footSpacing) + (stepDirection.normalized);
 
         Ray ray = new Ray(origin, Vector3.down);
         //then we take that ray and hit the floor
