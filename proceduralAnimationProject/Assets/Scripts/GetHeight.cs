@@ -7,14 +7,20 @@ public class GetHeight : MonoBehaviour
     //the distance between the hit object and the ground will set how far up the hips will be from the ground
     public LayerMask terrainLayer;
     public Transform body;
-    private float distanceToFloor;
+
+    public float distanceToFloor;
+
+    public float standingHeight;
+    public float rayOffset;
     public float maxHeight;
-    private Vector3 offsetPosition;
+    public float adjustSpeed;
     private void Update()
     {
         //each frame I want to set the hips to some distance above the ground
         //SetPositionToOffset();
-        DistanceToFloor();
+        //DistanceToFloor();
+
+        MaintainHeightAboveGround();
     }
     void DistanceToFloor()
     {
@@ -36,6 +42,21 @@ public class GetHeight : MonoBehaviour
                 body.position = hit.point + (body.up * maxHeight);
                 //print(distance);
             }
+        }
+    }
+
+    void MaintainHeightAboveGround()
+    {
+        Vector3 origin = body.position + Vector3.up * rayOffset;
+        Ray ray = new Ray(origin, Vector3.down);
+
+        Debug.DrawRay(origin, Vector3.down * 10f, Color.red);
+
+        if (Physics.Raycast(ray,out RaycastHit hit, 10f, terrainLayer))
+        {
+            Vector3 targetPosition = hit.point + (Vector3.up * standingHeight);
+
+            body.position = Vector3.Lerp(body.position, targetPosition, Time.deltaTime * adjustSpeed);
         }
     }
     //void SetPositionToOffset()
