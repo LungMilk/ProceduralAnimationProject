@@ -26,10 +26,12 @@ public class SteppingLogic : MonoBehaviour
     public Vector3 stepDirection;
     private Vector3 smoothDir;
     public float directionSmoothing;
+    public float targetSmoothing;
 
     private float lerp;
     private void Start()
     {
+        //foot.parent = null;
         stepCurve.arcHeight = stepHeight;
     }
     private void Update()
@@ -51,7 +53,7 @@ public class SteppingLogic : MonoBehaviour
         //our distance before we are even stepping.
 
         //if the distance between where the foot is and the target position is farther then 
-        float distance = Vector3.Distance(foot.position, info.point);
+        float distance = Vector3.Distance(foot.position, target.position);
         if (distance > stepDistance)
         {
             canStep = true;
@@ -60,8 +62,8 @@ public class SteppingLogic : MonoBehaviour
         //we want the foot to stop moving
         if (!stepping && !canStep)
         {
-            newPosition = target.position;
-            foot.position = newPosition;
+            //newPosition = target.position;
+            //foot.position = newPosition;
         }
     }
 
@@ -86,8 +88,7 @@ public class SteppingLogic : MonoBehaviour
         //then we take that ray and hit the floor
         if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value) && !stepping)
         {
-            target.position = info.point;
-            //giving a position underneath the character
+            target.position = Vector3.Lerp(target.position, info.point, Time.deltaTime * targetSmoothing);
         }
 
         return info;

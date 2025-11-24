@@ -705,6 +705,7 @@ MonoBehaviour:
   forwardMovementPrediction: 0.3
   stepDirection: {x: 0, y: 0, z: 0}
   directionSmoothing: 10
+  targetSmoothing: 10
 --- !u!1 &645746855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,6 +1157,7 @@ MonoBehaviour:
   forwardMovementPrediction: 0.3
   stepDirection: {x: 0, y: 0, z: 0}
   directionSmoothing: 10
+  targetSmoothing: 10
 --- !u!1001 &1056076903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1166,7 +1168,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1174,7 +1176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.67
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1688,7 +1690,7 @@ MonoBehaviour:
     m_Bits: 64
   body: {fileID: 1056076970}
   distanceToFloor: 1
-  standingHeight: 1
+  standingHeight: 0.7
   rayOffset: 0.2
   maxHeight: 0
   adjustSpeed: 10
