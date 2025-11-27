@@ -333,8 +333,12 @@ MonoBehaviour:
   charState: {fileID: 1056076975}
   feet:
   - {fileID: 994438046}
-  - {fileID: 591417003}
+  - {fileID: 591417002}
   activeFeet: []
+  globalStepDistance: 0.7
+  globalStepHeight: 0.2
+  globalStepDuration: 1
+  globalSpeed: 2
   activeFoot: 
 --- !u!1 &187308995
 GameObject:
@@ -500,9 +504,8 @@ GameObject:
   m_Component:
   - component: {fileID: 591416999}
   - component: {fileID: 591417000}
-  - component: {fileID: 591417003}
-  - component: {fileID: 591417002}
   - component: {fileID: 591417001}
+  - component: {fileID: 591417002}
   m_Layer: 0
   m_Name: RightLeg
   m_TagString: Untagged
@@ -525,7 +528,6 @@ Transform:
   m_Children:
   - {fileID: 427042087}
   - {fileID: 1990303613}
-  - {fileID: 1734418319}
   m_Father: {fileID: 160955777}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &591417000
@@ -666,45 +668,24 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 591416998}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5722f1b3974ed47a9024306ad01ef5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lineRenderer: {fileID: 591417001}
-  point0: {fileID: 1734418319}
-  point1: {x: 0, y: 0, z: 0}
-  point2: {x: 0, y: 0, z: 0}
-  arcHeight: 1
---- !u!114 &591417003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 591416998}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85082548db39b884db49a1068e0b8f9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 1056076969}
-  target: {fileID: 1734418319}
+  body: {fileID: 1056076970}
   foot: {fileID: 427042087}
-  footSpacing: 0.3
+  footSpacing: -0.3
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
-  stepDistance: 0.8
-  stepHeight: 1
-  stepDuration: 1
-  speed: 1
+  stepDistance: 0
+  stepHeight: 0
+  stepDuration: 0
+  speed: 0
   stepping: 0
-  canStep: 0
-  forwardMovementPrediction: 0.3
+  toldToStep: 1
   stepDirection: {x: 0, y: 0, z: 0}
-  directionSmoothing: 10
-  targetSmoothing: 10
 --- !u!1 &645746855
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,7 +933,6 @@ GameObject:
   - component: {fileID: 994438042}
   - component: {fileID: 994438043}
   - component: {fileID: 994438045}
-  - component: {fileID: 994438044}
   - component: {fileID: 994438046}
   m_Layer: 0
   m_Name: LeftLeg
@@ -976,7 +956,6 @@ Transform:
   m_Children:
   - {fileID: 678018292}
   - {fileID: 199170512}
-  - {fileID: 1561745653}
   m_Father: {fileID: 160955777}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &994438043
@@ -1003,23 +982,6 @@ MonoBehaviour:
     m_HintWeight: 1
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
---- !u!114 &994438044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 994438041}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5722f1b3974ed47a9024306ad01ef5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lineRenderer: {fileID: 994438045}
-  point0: {fileID: 1561745653}
-  point1: {x: 0, y: 0, z: 0}
-  point2: {x: 0, y: 0, z: 0}
-  arcHeight: 1
 --- !u!120 &994438045
 LineRenderer:
   serializedVersion: 2
@@ -1139,23 +1101,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85082548db39b884db49a1068e0b8f9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 1056076969}
-  target: {fileID: 1561745653}
+  body: {fileID: 1056076970}
   foot: {fileID: 678018292}
-  footSpacing: -0.3
+  footSpacing: 0.3
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
-  stepDistance: 0.7
-  stepHeight: 0.2
-  stepDuration: 1
-  speed: 2
+  stepDistance: 0
+  stepHeight: 0
+  stepDuration: 0
+  speed: 0
   stepping: 0
-  canStep: 0
-  forwardMovementPrediction: 0.3
+  toldToStep: 1
   stepDirection: {x: 0, y: 0, z: 0}
-  directionSmoothing: 10
-  targetSmoothing: 10
 --- !u!1001 &1056076903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1708,68 +1666,6 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   direction: {x: 0, y: 0, z: 0}
   speed: 0
---- !u!1 &1561745652
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1561745653}
-  m_Layer: 0
-  m_Name: Targetpoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1561745653
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1561745652}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 994438042}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1734418318
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1734418319}
-  m_Layer: 0
-  m_Name: TargetPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1734418319
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1734418318}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 591416999}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1990303612
 GameObject:
   m_ObjectHideFlags: 0

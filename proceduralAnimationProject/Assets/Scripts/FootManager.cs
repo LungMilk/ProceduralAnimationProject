@@ -5,15 +5,30 @@ public class FootManager : MonoBehaviour
     public CharacterState charState;
     public List<SteppingLogic> feet;
     public List<SteppingLogic> activeFeet;
+
+    public float globalStepDistance;
+    public float globalStepHeight;
+    public float globalStepDuration;
+    public float globalSpeed;
     //having it be a list could mean that I can have lots of feet??
     //how would I differentiate, maybe they have a bool or something to communicate their orientation?
     //should I filter then?
 
     //I would like to display the active foot
     public string activeFoot;
-    private void Awake()
+    private void Start()
     {
-
+        SetupFeetValues();
+    }
+    private void SetupFeetValues()
+    {
+        foreach (SteppingLogic foot in feet)
+        {
+            foot.stepDistance = globalStepDistance;
+            foot.stepHeight = globalStepHeight;
+            foot.stepDuration = globalStepDuration;
+            foot.speed = globalSpeed;
+        }
     }
 
     private void Update()
@@ -22,23 +37,18 @@ public class FootManager : MonoBehaviour
         foreach (SteppingLogic foot in feet)
         {
             foot.stepDirection = charState.direction;
-            foot.forwardMovementPrediction = charState.speed;
         }
 
-        //this for loop will interupt the code if a foot is currently stepping.
-        foreach (SteppingLogic foot in feet)
-        {
-            if (foot.stepping)
-                return;
-        }
+        //now the foot manager needs to tell the feet when to step, as well as know when.
+        //Check the feets state and if that foots state canStep and no other are stepping
 
-        //if no foot is stepping then we call a new step.
         foreach (SteppingLogic foot in feet)
         {
-            if (foot.canStep)
+            //if this foot can step let it step
+            if (!foot.stepping)
             {
-                foot.StartStep();
-                return;
+                foot.toldToStep = true;
+                break;
             }
         }
     }

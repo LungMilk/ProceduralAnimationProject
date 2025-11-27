@@ -4,7 +4,6 @@ using UnityEngine.Events;
 public class SteppingLogic : MonoBehaviour
 {
     public Transform body;
-    public Transform target;
     public Transform foot;
 
     public float footSpacing;
@@ -19,14 +18,12 @@ public class SteppingLogic : MonoBehaviour
     public float speed;
 
     public bool stepping = false;
-    public bool canStep;
+    //start true to avoid stuff;
+    public bool toldToStep = true;
 
     //public BezierCurve stepCurve;
-    public float forwardMovementPrediction;
+    //public float forwardMovementPrediction;
     public Vector3 stepDirection;
-    private Vector3 smoothDir;
-    public float directionSmoothing;
-    public float targetSmoothing;
 
     private float lerp;
     private void Start()
@@ -67,29 +64,16 @@ public class SteppingLogic : MonoBehaviour
         //    //foot.position = newPosition;
         //}
     }
-
-    private void InitializeStepValues()
-    {
-        //whaty happens at the start of a step
-        print("begin step");
-        //stepping = true;
-        newPosition = target.position;
-        oldPosition = foot.position;
-        //arguably these are confusing for a reader and a better visualization method should be explored.
-        //stepCurve.point1 = oldPosition;
-        //stepCurve.point0.position = newPosition;
-    }
     //we will change the name and get rid of anything else later.
     private void UpdatedStepping()
     {
         foot.position = currentPosition;
-
         //body position is the hips + (which side fo the leg we are on) + (our travel direction * speed)
         Vector3 origin = body.position + (body.right * footSpacing) + (stepDirection.normalized);
 
         Ray ray = new Ray(origin, Vector3.down);
         //then we take that ray and hit the floor
-        if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value) && !stepping && canStep)
+        if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value) && !stepping)
         {
             if (Vector3.Distance(newPosition, info.point) > stepDistance)
             {
@@ -98,23 +82,14 @@ public class SteppingLogic : MonoBehaviour
             }
         }
 
-        if(Vector3.Distance(foot.position, newPosition) >= 0.1f)
+        //this is what needs to be known??
+        //stepping
+        if (!toldToStep)
         {
-            canStep = true;
+            return;
         }
 
-        if (lerp < 1)
-        {
-            Vector3 footPosition = Vector3.Lerp(oldPosition, newPosition, lerp);
-            footPosition.y += Mathf.Sin(lerp * Mathf.PI) * stepHeight;
-
-            currentPosition = footPosition;
-            lerp += Time.deltaTime * speed;
-        }
-        else
-        {
-            oldPosition = newPosition;
-        }
+        MoveFoot();
     }
     private RaycastHit FindPositionOnFloor()
     {
@@ -148,38 +123,36 @@ public class SteppingLogic : MonoBehaviour
         return info;
     }
 
-    public void Stepping()
+    public void MoveFoot()
     {
-        //we make a lerp timer to track its travel path along the curve
-        lerp += Time.deltaTime * (speed);
-        //our bezier func only takes 0-1 so we think of this as a percent of time from a counter that continues to increase.
-        float time = Mathf.Clamp01(lerp);
-
-        //currentPosition = stepCurve.CalculateQuadraticBezierPoint(time, stepCurve.point1, stepCurve.point2, stepCurve.point0.position);
-        //whatever position we get from the curve is then applied to the foot position
-        foot.position = currentPosition;
-
-        //then when the intended step duration is exceeded we have stopped stepping and reset for another step.
-        if (time >= stepDuration)
+        if (lerp < 1)
         {
+            Vector3 footPosition = Vector3.Lerp(oldPosition, newPosition, lerp);
+            footPosition.y += Mathf.Sin(lerp * Mathf.PI) * stepHeight;
+
+            currentPosition = footPosition;
+            lerp += Time.deltaTime * speed;
+            print("Stepping");
+            stepping = true;
+        }
+        else
+        {
+            oldPosition = newPosition;
             stepping = false;
-            lerp = 0;
-            canStep = false;
-            //stepCurve.point1 = target.position;
-            print("Reset stepping");
+            toldToStep = false;
+            print("Finished a step");
         }
     }
     public void StartStep()
     {
         stepping = true;
-        canStep = false;
         lerp = 0;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(target.position, 0.1f);
+        Gizmos.DrawSphere(newPosition, 0.1f);
     }
     //void FootPosition()
     //{
