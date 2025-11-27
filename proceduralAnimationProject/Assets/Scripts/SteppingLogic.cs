@@ -75,24 +75,22 @@ public class SteppingLogic : MonoBehaviour
 
         Ray ray = new Ray(origin, Vector3.down);
         //then we take that ray and hit the floor
-        if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value) && !stepping)
+        if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
         {
-            distanceToGoal = Vector3.Distance(newPosition, info.point);
-            if (Vector3.Distance(newPosition, info.point) > stepDistance)
+            distanceToGoal = Vector3.Distance(currentPosition, info.point);
+
+            if (distanceToGoal > stepDistance)
             {
-                lerp = 0;
                 newPosition = info.point;
             }
         }
 
         //this is what needs to be known??
         //stepping
-        if (!toldToStep)
+        if (stepping)
         {
-            return;
+            MoveFoot();
         }
-
-        MoveFoot();
     }
     public void MoveFoot()
     {
@@ -104,20 +102,18 @@ public class SteppingLogic : MonoBehaviour
             currentPosition = footPosition;
             lerp += Time.deltaTime * speed;
             print("Stepping");
-            stepping = true;
         }
         else
         {
             oldPosition = newPosition;
             stepping = false;
-            toldToStep = false;
             print("Finished a step");
         }
     }
     public void StartStep()
     {
         stepping = true;
-        lerp = 0;
+        lerp = 0f;
     }
 
     private void OnDrawGizmos()

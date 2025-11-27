@@ -15,7 +15,7 @@ public class FootManager : MonoBehaviour
     //should I filter then?
 
     //I would like to display the active foot
-    public string activeFoot;
+    public string activeFootString;
     private void Start()
     {
         SetupFeetValues();
@@ -60,15 +60,21 @@ public class FootManager : MonoBehaviour
         SteppingLogic activeFoot = null;
         foreach (SteppingLogic foot in feet)
         {
-            if(foot.distanceToGoal > largestDistance && !foot.stepping)
+            if(foot.distanceToGoal > largestDistance)
             {
                 largestDistance = foot.distanceToGoal;
                 activeFoot = foot;
             }
         }
-        if (activeFoot != null)
+        if (largestDistance < globalStepDistance)
         {
-            activeFoot.toldToStep = true;
+            return;
+        }
+
+        if (activeFoot != null && !activeFoot.stepping && activeFoot.distanceToGoal > globalStepDistance)
+        {
+            activeFoot.StartStep();
+            activeFootString = activeFoot.name;
         }
     }
     public void DetermineFootToMove()

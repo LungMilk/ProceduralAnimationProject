@@ -339,7 +339,7 @@ MonoBehaviour:
   globalStepHeight: 0.2
   globalStepDuration: 1
   globalSpeed: 2
-  activeFoot: 
+  activeFootString: 
 --- !u!1 &187308995
 GameObject:
   m_ObjectHideFlags: 0
