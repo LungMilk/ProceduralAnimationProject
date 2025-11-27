@@ -335,7 +335,7 @@ MonoBehaviour:
   - {fileID: 994438046}
   - {fileID: 591417002}
   activeFeet: []
-  globalStepDistance: 0.7
+  globalStepDistance: 1
   globalStepHeight: 0.2
   globalStepDuration: 1
   globalSpeed: 2
@@ -675,7 +675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 1056076970}
   foot: {fileID: 427042087}
-  footSpacing: -0.3
+  footSpacing: 0.3
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -683,6 +683,7 @@ MonoBehaviour:
   stepHeight: 0
   stepDuration: 0
   speed: 0
+  distanceToGoal: 0
   stepping: 0
   toldToStep: 1
   stepDirection: {x: 0, y: 0, z: 0}
@@ -1103,7 +1104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 1056076970}
   foot: {fileID: 678018292}
-  footSpacing: 0.3
+  footSpacing: -0.3
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -1111,6 +1112,7 @@ MonoBehaviour:
   stepHeight: 0
   stepDuration: 0
   speed: 0
+  distanceToGoal: 0
   stepping: 0
   toldToStep: 1
   stepDirection: {x: 0, y: 0, z: 0}

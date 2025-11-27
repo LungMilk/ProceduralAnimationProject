@@ -17,6 +17,8 @@ public class SteppingLogic : MonoBehaviour
     public float stepDuration;
     public float speed;
 
+    public float distanceToGoal;
+
     public bool stepping = false;
     //start true to avoid stuff;
     public bool toldToStep = true;
@@ -75,6 +77,7 @@ public class SteppingLogic : MonoBehaviour
         //then we take that ray and hit the floor
         if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value) && !stepping)
         {
+            distanceToGoal = Vector3.Distance(newPosition, info.point);
             if (Vector3.Distance(newPosition, info.point) > stepDistance)
             {
                 lerp = 0;
@@ -91,38 +94,6 @@ public class SteppingLogic : MonoBehaviour
 
         MoveFoot();
     }
-    private RaycastHit FindPositionOnFloor()
-    {
-        transform.position = currentPosition;
-
-        //body position is the hips + (which side fo the leg we are on) + (our travel direction * speed)
-        Vector3 origin = body.position + (body.right * footSpacing) + (stepDirection.normalized);
-
-        Ray ray = new Ray(origin, Vector3.down);
-        //then we take that ray and hit the floor
-        if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value) && !stepping)
-        {
-            if(Vector3.Distance(newPosition,info.point) > stepDistance) {
-                lerp = 0;
-                newPosition = info.point;
-            }
-        }
-        if (lerp < 1)
-        {
-            Vector3 footPosition = Vector3.Lerp(oldPosition, newPosition, lerp);
-            footPosition.y += Mathf.Sin(lerp * Mathf.PI) * stepHeight;
-
-            currentPosition = footPosition;
-            lerp += Time.deltaTime * speed;
-        }
-        else 
-        {
-            oldPosition = newPosition;
-        }
-
-        return info;
-    }
-
     public void MoveFoot()
     {
         if (lerp < 1)

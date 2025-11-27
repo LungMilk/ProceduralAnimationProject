@@ -41,15 +41,34 @@ public class FootManager : MonoBehaviour
 
         //now the foot manager needs to tell the feet when to step, as well as know when.
         //Check the feets state and if that foots state canStep and no other are stepping
-
+        bool anyStepping = false;
         foreach (SteppingLogic foot in feet)
         {
-            //if this foot can step let it step
-            if (!foot.stepping)
+            if (foot.stepping)
             {
-                foot.toldToStep = true;
+                anyStepping = true;
                 break;
             }
+        }
+
+        if (anyStepping)
+        {
+            return;
+        }
+
+        float largestDistance = 0;
+        SteppingLogic activeFoot = null;
+        foreach (SteppingLogic foot in feet)
+        {
+            if(foot.distanceToGoal > largestDistance && !foot.stepping)
+            {
+                largestDistance = foot.distanceToGoal;
+                activeFoot = foot;
+            }
+        }
+        if (activeFoot != null)
+        {
+            activeFoot.toldToStep = true;
         }
     }
     public void DetermineFootToMove()
