@@ -18,17 +18,19 @@ public class CharacterState : MonoBehaviour
     {
         //classic velocity equation (d2 - d1) / t = v
         velocity = (body.position - oldPosition) / Time.deltaTime;
+        velocity.x = Mathf.Round(direction.x * 100f) / 100f;
+        velocity.y = Mathf.Round(direction.y * 100f) / 100f;
+        velocity.z = Mathf.Round(direction.z * 100f) / 100f;
         //when standing still it might be some very small value 
-        if (velocity.magnitude < 0.05f)
-        {
-            direction = Vector3.zero;
-            speed = 0;
-        }
-        else
-        {
-            direction = velocity.normalized;
-            speed = velocity.magnitude;
-        }
+
+        direction = velocity.normalized;
+        //gets rid of the extra decimal places
+        direction.x = Mathf.Round(direction.x * 100f) / 100f;
+        direction.y = Mathf.Round(direction.y * 100f) / 100f;
+        direction.z = Mathf.Round(direction.z * 100f) / 100f;
+
+
+        speed = velocity.magnitude;
 
         oldPosition = body.position;
     }
