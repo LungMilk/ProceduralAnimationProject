@@ -666,7 +666,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 591416998}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c5722f1b3974ed47a9024306ad01ef5, type: 3}
   m_Name: 
@@ -701,7 +701,6 @@ MonoBehaviour:
   speed: 1
   stepping: 0
   canStep: 0
-  stepCurve: {fileID: 591417002}
   forwardMovementPrediction: 0.3
   stepDirection: {x: 0, y: 0, z: 0}
   directionSmoothing: 10
@@ -1011,7 +1010,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994438041}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c5722f1b3974ed47a9024306ad01ef5, type: 3}
   m_Name: 
@@ -1148,12 +1147,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   stepDistance: 0.7
-  stepHeight: 1
+  stepHeight: 0.2
   stepDuration: 1
   speed: 2
   stepping: 0
   canStep: 0
-  stepCurve: {fileID: 994438044}
   forwardMovementPrediction: 0.3
   stepDirection: {x: 0, y: 0, z: 0}
   directionSmoothing: 10

@@ -21,7 +21,7 @@ public class SteppingLogic : MonoBehaviour
     public bool stepping = false;
     public bool canStep;
 
-    public BezierCurve stepCurve;
+    //public BezierCurve stepCurve;
     public float forwardMovementPrediction;
     public Vector3 stepDirection;
     private Vector3 smoothDir;
@@ -32,39 +32,40 @@ public class SteppingLogic : MonoBehaviour
     private void Start()
     {
         //foot.parent = null;
-        stepCurve.arcHeight = stepHeight;
+        //stepCurve.arcHeight = stepHeight;
     }
     private void Update()
     {
-        if (stepping)
-        {
-            Stepping();
-            return;
-        }
-        //first we establish our ray that we want to cast and its offsets with the body
-        //smoothDir = Vector3.Lerp(smoothDir, stepDirection.normalized, Time.deltaTime * directionSmoothing);
-        RaycastHit info = FindPositionOnFloor();
-        //Target is the target we want our foot to travel to
-        //once the target point overreaches our threshold
-        //we need to step
-        //If the distance between where the foot currently is and our target position beyond 
+        UpdatedStepping();
+        //if (stepping)
+        //{
+        //    Stepping();
+        //    return;
+        //}
+        ////first we establish our ray that we want to cast and its offsets with the body
+        ////smoothDir = Vector3.Lerp(smoothDir, stepDirection.normalized, Time.deltaTime * directionSmoothing);
+        //RaycastHit info = FindPositionOnFloor();
+        ////Target is the target we want our foot to travel to
+        ////once the target point overreaches our threshold
+        ////we need to step
+        ////If the distance between where the foot currently is and our target position beyond 
 
-        //Vector3 footPosOnGround = new Vector3(oldPosition.x, oldPosition.y, oldPosition.z);
-        //our distance before we are even stepping.
+        ////Vector3 footPosOnGround = new Vector3(oldPosition.x, oldPosition.y, oldPosition.z);
+        ////our distance before we are even stepping.
 
-        //if the distance between where the foot is and the target position is farther then 
-        float distance = Vector3.Distance(foot.position, target.position);
-        if (distance > stepDistance)
-        {
-            canStep = true;
-            InitializeStepValues();
-        }
-        //we want the foot to stop moving
-        if (!stepping && !canStep)
-        {
-            //newPosition = target.position;
-            //foot.position = newPosition;
-        }
+        ////if the distance between where the foot is and the target position is farther then 
+        //float distance = Vector3.Distance(foot.position, target.position);
+        //if (distance > stepDistance)
+        //{
+        //    canStep = true;
+        //    InitializeStepValues();
+        //}
+        ////we want the foot to stop moving
+        //if (!stepping && !canStep)
+        //{
+        //    //newPosition = target.position;
+        //    //foot.position = newPosition;
+        //}
     }
 
     private void InitializeStepValues()
@@ -75,12 +76,50 @@ public class SteppingLogic : MonoBehaviour
         newPosition = target.position;
         oldPosition = foot.position;
         //arguably these are confusing for a reader and a better visualization method should be explored.
-        stepCurve.point1 = oldPosition;
-        stepCurve.point0.position = newPosition;
+        //stepCurve.point1 = oldPosition;
+        //stepCurve.point0.position = newPosition;
     }
+    //we will change the name and get rid of anything else later.
+    private void UpdatedStepping()
+    {
+        foot.position = currentPosition;
 
+        //body position is the hips + (which side fo the leg we are on) + (our travel direction * speed)
+        Vector3 origin = body.position + (body.right * footSpacing) + (stepDirection.normalized);
+
+        Ray ray = new Ray(origin, Vector3.down);
+        //then we take that ray and hit the floor
+        if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value) && !stepping && canStep)
+        {
+            if (Vector3.Distance(newPosition, info.point) > stepDistance)
+            {
+                lerp = 0;
+                newPosition = info.point;
+            }
+        }
+
+        if(Vector3.Distance(foot.position, newPosition) >= 0.1f)
+        {
+            canStep = true;
+        }
+
+        if (lerp < 1)
+        {
+            Vector3 footPosition = Vector3.Lerp(oldPosition, newPosition, lerp);
+            footPosition.y += Mathf.Sin(lerp * Mathf.PI) * stepHeight;
+
+            currentPosition = footPosition;
+            lerp += Time.deltaTime * speed;
+        }
+        else
+        {
+            oldPosition = newPosition;
+        }
+    }
     private RaycastHit FindPositionOnFloor()
     {
+        transform.position = currentPosition;
+
         //body position is the hips + (which side fo the leg we are on) + (our travel direction * speed)
         Vector3 origin = body.position + (body.right * footSpacing) + (stepDirection.normalized);
 
@@ -88,7 +127,22 @@ public class SteppingLogic : MonoBehaviour
         //then we take that ray and hit the floor
         if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value) && !stepping)
         {
-            target.position = Vector3.Lerp(target.position, info.point, Time.deltaTime * targetSmoothing);
+            if(Vector3.Distance(newPosition,info.point) > stepDistance) {
+                lerp = 0;
+                newPosition = info.point;
+            }
+        }
+        if (lerp < 1)
+        {
+            Vector3 footPosition = Vector3.Lerp(oldPosition, newPosition, lerp);
+            footPosition.y += Mathf.Sin(lerp * Mathf.PI) * stepHeight;
+
+            currentPosition = footPosition;
+            lerp += Time.deltaTime * speed;
+        }
+        else 
+        {
+            oldPosition = newPosition;
         }
 
         return info;
@@ -101,7 +155,7 @@ public class SteppingLogic : MonoBehaviour
         //our bezier func only takes 0-1 so we think of this as a percent of time from a counter that continues to increase.
         float time = Mathf.Clamp01(lerp);
 
-        currentPosition = stepCurve.CalculateQuadraticBezierPoint(time, stepCurve.point1, stepCurve.point2, stepCurve.point0.position);
+        //currentPosition = stepCurve.CalculateQuadraticBezierPoint(time, stepCurve.point1, stepCurve.point2, stepCurve.point0.position);
         //whatever position we get from the curve is then applied to the foot position
         foot.position = currentPosition;
 
@@ -111,7 +165,7 @@ public class SteppingLogic : MonoBehaviour
             stepping = false;
             lerp = 0;
             canStep = false;
-            stepCurve.point1 = target.position;
+            //stepCurve.point1 = target.position;
             print("Reset stepping");
         }
     }
